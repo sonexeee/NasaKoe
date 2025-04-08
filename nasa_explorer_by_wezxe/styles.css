@@ -1,0 +1,813 @@
+:root {
+    --primary-color: #0B3D91;
+    --secondary-color: #FC3D21;
+    --dark-blue: #061F4A;
+    --light-blue: #B9D9EB;
+    --text-color: #333;
+    --background-color: #f5f5f5;
+    --card-background: #fff;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', Arial, sans-serif;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header Styles */
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px var(--shadow-color);
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.logo svg {
+    animation: pulse 2s infinite alternate;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.05);
+    }
+}
+
+.logo h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+nav ul {
+    display: flex;
+    list-style-type: none;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+nav a:hover, nav a.active {
+    background-color: var(--secondary-color);
+    box-shadow: 0 0 10px rgba(252, 61, 33, 0.7);
+}
+
+/* Main Sections */
+section {
+    display: none;
+    background-color: var(--card-background);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px var(--shadow-color);
+    margin-bottom: 2rem;
+}
+
+section.active-section {
+    display: block;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--light-blue);
+    padding-bottom: 0.5rem;
+}
+
+/* APOD Section */
+.apod-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .apod-container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.apod-media {
+    position: relative;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+#apod-image-container {
+    width: 100%;
+    height: 100%;
+}
+
+#apod-image-container img, #apod-image-container iframe {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 5px;
+}
+
+.apod-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#apod-date {
+    color: #666;
+    font-style: italic;
+}
+
+#apod-description {
+    line-height: 1.7;
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 10px;
+    margin-bottom: 1rem;
+}
+
+#apod-description::-webkit-scrollbar {
+    width: 8px;
+}
+
+#apod-description::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+#apod-description::-webkit-scrollbar-thumb {
+    background: var(--light-blue);
+    border-radius: 10px;
+}
+
+.nasa-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-align: center;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.nasa-button:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.small-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.small-button:hover {
+    background-color: var(--secondary-color);
+}
+
+.date-picker {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+input[type="date"] {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+/* Mars Rover Photos Section */
+.filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: var(--light-blue);
+    border-radius: 5px;
+    align-items: center;
+}
+
+.rover-selector, .camera-selector, .sol-selector {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+select, input[type="number"] {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: white;
+}
+
+input[type="number"] {
+    width: 100px;
+}
+
+.mars-gallery {
+    position: relative;
+    min-height: 200px;
+}
+
+#rover-photos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.rover-photo {
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px var(--shadow-color);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    position: relative;
+}
+
+.rover-photo:hover {
+    transform: scale(1.03);
+}
+
+.rover-photo img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.rover-photo .photo-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 8px;
+    font-size: 0.8rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.rover-photo:hover .photo-info {
+    opacity: 1;
+}
+
+.gallery-navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.nav-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-button:hover:not(:disabled) {
+    background-color: var(--secondary-color);
+}
+
+.nav-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+#photo-counter {
+    font-weight: 500;
+}
+
+.rover-info-panel {
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: var(--light-blue);
+    border-radius: 5px;
+}
+
+#rover-info {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.rover-stat {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.rover-stat h4 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+/* Earth Imagery Section */
+.earth-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .earth-container {
+        grid-template-columns: 300px 1fr;
+    }
+}
+
+.earth-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.location-inputs {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-end;
+}
+
+.location-inputs > div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.location-presets {
+    margin-top: 1rem;
+}
+
+.preset-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.preset {
+    background-color: var(--light-blue);
+    border: none;
+    padding: 5px 10px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.preset:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.earth-display {
+    position: relative;
+    min-height: 300px;
+}
+
+#earth-image-container {
+    width: 100%;
+    height: 400px;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+#earth-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#earth-info {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: var(--light-blue);
+    border-radius: 5px;
+    line-height: 1.6;
+}
+
+/* Asteroid Data Section */
+.asteroid-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .asteroid-container {
+        grid-template-columns: 300px 1fr;
+    }
+}
+
+.asteroid-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.asteroid-controls .control-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.asteroid-controls .control-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.asteroid-controls .range-inputs {
+    display: flex;
+    gap: 10px;
+}
+
+.asteroid-visualization {
+    position: relative;
+    min-height: 300px;
+}
+
+.asteroid-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.summary-card {
+    background-color: var(--light-blue);
+    padding: 1rem;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.big-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin: 0.5rem 0;
+}
+
+.hazardous {
+    color: var(--secondary-color);
+}
+
+.chart-container {
+    height: 300px;
+    margin-bottom: 2rem;
+}
+
+.asteroid-table-container {
+    overflow-x: auto;
+}
+
+#asteroid-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+#asteroid-table th, #asteroid-table td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#asteroid-table th {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+#asteroid-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#asteroid-table tr:hover {
+    background-color: var(--light-blue);
+}
+
+.hazard-indicator {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #5cb85c;
+}
+
+.hazard-indicator.hazardous {
+    background-color: #d9534f;
+}
+
+/* ISS Tracker Section */
+.iss-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 992px) {
+    .iss-container {
+        grid-template-columns: 2fr 1fr;
+    }
+}
+
+.iss-map-container {
+    position: relative;
+    height: 500px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+#iss-map {
+    height: 100%;
+    width: 100%;
+}
+
+.map-overlay {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+}
+
+.iss-info, .crew-info {
+    margin-bottom: 1rem;
+}
+
+.iss-info h3, .crew-info h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid var(--light-blue);
+    padding-bottom: 0.3rem;
+}
+
+#iss-coordinates, .iss-timing, #crew-count {
+    margin-bottom: 0.5rem;
+}
+
+#crew-list {
+    list-style-type: none;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+#crew-list li {
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.iss-passes {
+    background-color: var(--light-blue);
+    padding: 1rem;
+    border-radius: 10px;
+}
+
+.pass-location-input {
+    margin-bottom: 1rem;
+}
+
+.passes-list-container {
+    position: relative;
+    min-height: 100px;
+}
+
+#passes-list {
+    background-color: white;
+    border-radius: 5px;
+    padding: 1rem;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.pass-card {
+    background-color: var(--card-background);
+    margin-bottom: 0.5rem;
+    padding: 0.75rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.pass-card h4 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.pass-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.pass-duration {
+    font-weight: bold;
+}
+
+.no-passes {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(11, 61, 145, 0.2);
+    border-radius: 50%;
+    border-top-color: var(--primary-color);
+    animation: spin 1s infinite ease-in-out;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    display: none;
+}
+
+@keyframes spin {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 10px;
+}
+
+/* Lightbox */
+#lightbox {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+}
+
+.close-lightbox {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    color: white;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.lightbox-content {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+}
+
+#lightbox-caption {
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    header {
+        padding: 1rem 0.5rem;
+    }
+    
+    .logo h1 {
+        font-size: 1.8rem;
+    }
+    
+    nav ul {
+        gap: 0.5rem;
+    }
+    
+    nav a {
+        padding: 0.3rem 0.7rem;
+        font-size: 0.9rem;
+    }
+    
+    section {
+        padding: 1rem;
+    }
+    
+    .nasa-button {
+        padding: 8px 16px;
+    }
+    
+    .big-number {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .filter-options, .earth-controls, .asteroid-controls {
+        flex-direction: column;
+    }
+    
+    .location-inputs {
+        flex-direction: column;
+    }
+    
+    .rover-selector, .camera-selector, .sol-selector {
+        width: 100%;
+    }
+}
