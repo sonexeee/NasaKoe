@@ -1,0 +1,299 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASA Explorer</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
+                "chart.js": "https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <svg width="80" height="80" viewBox="0 0 300 300">
+                    <circle cx="150" cy="150" r="150" fill="#0B3D91"/>
+                    <path d="M150,30 L150,270 M30,150 L270,150" stroke="white" stroke-width="40" stroke-linecap="round"/>
+                    <circle cx="150" cy="150" r="60" fill="#FC3D21"/>
+                    <text x="150" y="150" font-family="Arial" font-size="24" fill="white" text-anchor="middle" dominant-baseline="middle">NASA</text>
+                </svg>
+                <h1>NASA Explorer</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#apod" class="active">Astronomy Picture</a></li>
+                    <li><a href="#mars">Mars Rover</a></li>
+                    <li><a href="#earth">Earth Imagery</a></li>
+                    <li><a href="#asteroid">Asteroid Data</a></li>
+                    <li><a href="#iss">ISS Tracker</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section id="apod" class="active-section">
+                <h2>Astronomy Picture of the Day</h2>
+                <div class="apod-container">
+                    <div class="apod-media">
+                        <div class="loading-spinner"></div>
+                        <div id="apod-image-container"></div>
+                    </div>
+                    <div class="apod-info">
+                        <h3 id="apod-title">Loading...</h3>
+                        <p id="apod-date"></p>
+                        <div id="apod-description"></div>
+                        <button id="apod-random" class="nasa-button">Random APOD</button>
+                        <div class="date-picker">
+                            <label for="apod-date-picker">Choose date: </label>
+                            <input type="date" id="apod-date-picker">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="mars">
+                <h2>Mars Rover Photos</h2>
+                <div class="filter-options">
+                    <div class="rover-selector">
+                        <label for="rover-select">Rover:</label>
+                        <select id="rover-select">
+                            <option value="curiosity">Curiosity</option>
+                            <option value="opportunity">Opportunity</option>
+                            <option value="spirit">Spirit</option>
+                            <option value="perseverance">Perseverance</option>
+                        </select>
+                    </div>
+                    <div class="camera-selector">
+                        <label for="camera-select">Camera:</label>
+                        <select id="camera-select">
+                            <option value="all">All Cameras</option>
+                        </select>
+                    </div>
+                    <div class="sol-selector">
+                        <label for="sol-input">Earth Date:</label>
+                        <input type="date" id="sol-input" min="2012-08-06" max="">
+                    </div>
+                    <button id="load-rover-photos" class="nasa-button">Load Photos</button>
+                </div>
+                <div class="mars-gallery">
+                    <div class="loading-spinner" id="mars-spinner"></div>
+                    <div id="rover-photos"></div>
+                    <div class="gallery-navigation">
+                        <button id="prev-photos" class="nav-button" disabled>Previous</button>
+                        <span id="photo-counter">0 photos</span>
+                        <button id="next-photos" class="nav-button" disabled>Next</button>
+                    </div>
+                </div>
+                <div class="rover-info-panel">
+                    <h3>Rover Information</h3>
+                    <div id="rover-info">Select a rover to see details</div>
+                </div>
+            </section>
+
+            <section id="earth">
+                <h2>Earth Imagery</h2>
+                <div class="earth-container">
+                    <div class="earth-controls">
+                        <div class="control-group">
+                            <label for="earth-date">Date:</label>
+                            <input type="date" id="earth-date">
+                        </div>
+                        <div class="control-group">
+                            <label>Location:</label>
+                            <div class="location-inputs">
+                                <div>
+                                    <label for="lat-input">Latitude:</label>
+                                    <input type="number" id="lat-input" step="0.001" min="-90" max="90" value="36.098">
+                                </div>
+                                <div>
+                                    <label for="lon-input">Longitude:</label>
+                                    <input type="number" id="lon-input" step="0.001" min="-180" max="180" value="-112.097">
+                                </div>
+                                <button id="use-current-location" class="small-button">
+                                    <svg viewBox="0 0 24 24" width="16" height="16">
+                                        <path fill="currentColor" d="M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8M12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10M10,22C9.75,22 9.54,21.82 9.5,21.58L9.13,18.93C8.5,18.68 7.96,18.34 7.44,17.94L4.95,18.95C4.73,19.03 4.46,18.95 4.34,18.73L2.34,15.27C2.21,15.05 2.27,14.78 2.46,14.63L4.57,12.97L4.5,12L4.57,11L2.46,9.37C2.27,9.22 2.21,8.95 2.34,8.73L4.34,5.27C4.46,5.05 4.73,4.96 4.95,5.05L7.44,6.05C7.96,5.66 8.5,5.32 9.13,5.07L9.5,2.42C9.54,2.18 9.75,2 10,2H14C14.25,2 14.46,2.18 14.5,2.42L14.87,5.07C15.5,5.32 16.04,5.66 16.56,6.05L19.05,5.05C19.27,4.96 19.54,5.05 19.66,5.27L21.66,8.73C21.79,8.95 21.73,9.22 21.54,9.37L19.43,11L19.5,12L19.43,13L21.54,14.63C21.73,14.78 21.79,15.05 21.66,15.27L19.66,18.73C19.54,18.95 19.27,19.04 19.05,18.95L16.56,17.95C16.04,18.34 15.5,18.68 14.87,18.93L14.5,21.58C14.46,21.82 14.25,22 14,22H10M11.25,4L10.88,6.61C9.68,6.86 8.62,7.5 7.85,8.39L5.44,7.35L4.69,8.65L6.8,10.2C6.4,11.37 6.4,12.64 6.8,13.8L4.68,15.36L5.43,16.66L7.86,15.62C8.63,16.5 9.68,17.14 10.87,17.38L11.24,20H12.76L13.13,17.39C14.32,17.14 15.37,16.5 16.14,15.62L18.57,16.66L19.32,15.36L17.2,13.81C17.6,12.64 17.6,11.37 17.2,10.2L19.31,8.65L18.56,7.35L16.15,8.39C15.38,7.5 14.32,6.86 13.12,6.62L12.75,4H11.25Z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <button id="search-earth-imagery" class="nasa-button">Search</button>
+                        <div class="location-presets">
+                            <h4>Presets:</h4>
+                            <div class="preset-buttons">
+                                <button class="preset" data-lat="40.7128" data-lon="-74.0060">New York</button>
+                                <button class="preset" data-lat="34.0522" data-lon="-118.2437">Los Angeles</button>
+                                <button class="preset" data-lat="-33.8688" data-lon="151.2093">Sydney</button>
+                                <button class="preset" data-lat="35.6762" data-lon="139.6503">Tokyo</button>
+                                <button class="preset" data-lat="-1.2921" data-lon="36.8219">Nairobi</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="earth-display">
+                        <div class="loading-spinner" id="earth-spinner"></div>
+                        <div id="earth-image-container"></div>
+                        <div id="earth-info"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="asteroid">
+                <h2>Near Earth Asteroid Data</h2>
+                <div class="asteroid-container">
+                    <div class="asteroid-controls">
+                        <div class="control-group">
+                            <label for="asteroid-start-date">Start Date:</label>
+                            <input type="date" id="asteroid-start-date">
+                        </div>
+                        <div class="control-group">
+                            <label for="asteroid-end-date">End Date:</label>
+                            <input type="date" id="asteroid-end-date">
+                        </div>
+                        <div class="control-group">
+                            <label for="asteroid-hazardous">Hazardous Only:</label>
+                            <input type="checkbox" id="asteroid-hazardous">
+                        </div>
+                        <button id="fetch-asteroids" class="nasa-button">Fetch Data</button>
+                        <div class="control-group">
+                            <label for="asteroid-diameter-filter">Diameter Filter (meters):</label>
+                            <div class="range-inputs">
+                                <input type="number" id="asteroid-min-diameter" placeholder="Min" step="10">
+                                <input type="number" id="asteroid-max-diameter" placeholder="Max" step="10">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label for="asteroid-velocity-filter">Velocity Filter (km/h):</label>
+                            <div class="range-inputs">
+                                <input type="number" id="asteroid-min-velocity" placeholder="Min" step="100">
+                                <input type="number" id="asteroid-max-velocity" placeholder="Max" step="100">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="asteroid-visualization">
+                        <div class="loading-spinner" id="asteroid-spinner"></div>
+                        <div class="asteroid-summary">
+                            <div class="summary-card">
+                                <h3>Total Asteroids</h3>
+                                <div class="big-number" id="asteroid-count">-</div>
+                            </div>
+                            <div class="summary-card">
+                                <h3>Potentially Hazardous</h3>
+                                <div class="big-number hazardous" id="hazardous-count">-</div>
+                            </div>
+                            <div class="summary-card">
+                                <h3>Closest Approach</h3>
+                                <div class="big-number" id="closest-approach">-</div>
+                                <div id="closest-name">-</div>
+                            </div>
+                            <div class="summary-card">
+                                <h3>Largest Asteroid</h3>
+                                <div class="big-number" id="largest-size">-</div>
+                                <div id="largest-name">-</div>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="asteroid-chart"></canvas>
+                        </div>
+                        <div class="asteroid-table-container">
+                            <h3>Asteroid List</h3>
+                            <table id="asteroid-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Size (m)</th>
+                                        <th>Closest Approach</th>
+                                        <th>Miss Distance (km)</th>
+                                        <th>Velocity (km/h)</th>
+                                        <th>Hazardous</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="asteroid-table-body">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="iss">
+                <h2>International Space Station Tracker</h2>
+                <div class="iss-container">
+                    <div class="iss-map-container">
+                        <div id="iss-map"></div>
+                        <div class="map-overlay">
+                            <div class="iss-info">
+                                <h3>ISS Location</h3>
+                                <div id="iss-coordinates">
+                                    <div>Latitude: <span id="iss-lat">--</span></div>
+                                    <div>Longitude: <span id="iss-lon">--</span></div>
+                                    <div>Altitude: <span id="iss-alt">--</span> km</div>
+                                    <div>Velocity: <span id="iss-velocity">--</span> km/h</div>
+                                </div>
+                                <div id="location-name">Location: <span id="iss-location">--</span></div>
+                                <div class="iss-timing">
+                                    <div>Last update: <span id="iss-time">--</span></div>
+                                </div>
+                            </div>
+                            <div class="crew-info">
+                                <h3>Current Crew</h3>
+                                <div id="crew-count">Astronauts on board: <span id="crew-number">--</span></div>
+                                <ul id="crew-list"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="iss-passes">
+                        <h3>Visible Passes</h3>
+                        <div class="pass-location-input">
+                            <div class="location-inputs">
+                                <div>
+                                    <label for="pass-lat-input">Latitude:</label>
+                                    <input type="number" id="pass-lat-input" step="0.001" min="-90" max="90">
+                                </div>
+                                <div>
+                                    <label for="pass-lon-input">Longitude:</label>
+                                    <input type="number" id="pass-lon-input" step="0.001" min="-180" max="180">
+                                </div>
+                                <button id="use-current-location-pass" class="small-button">
+                                    <svg viewBox="0 0 24 24" width="16" height="16">
+                                        <path fill="currentColor" d="M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8M12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10M10,22C9.75,22 9.54,21.82 9.5,21.58L9.13,18.93C8.5,18.68 7.96,18.34 7.44,17.94L4.95,18.95C4.73,19.03 4.46,18.95 4.34,18.73L2.34,15.27C2.21,15.05 2.27,14.78 2.46,14.63L4.57,12.97L4.5,12L4.57,11L2.46,9.37C2.27,9.22 2.21,8.95 2.34,8.73L4.34,5.27C4.46,5.05 4.73,4.96 4.95,5.05L7.44,6.05C7.96,5.66 8.5,5.32 9.13,5.07L9.5,2.42C9.54,2.18 9.75,2 10,2H14C14.25,2 14.46,2.18 14.5,2.42L14.87,5.07C15.5,5.32 16.04,5.66 16.56,6.05L19.05,5.05C19.27,4.96 19.54,5.05 19.66,5.27L21.66,8.73C21.79,8.95 21.73,9.22 21.54,9.37L19.43,11L19.5,12L19.43,13L21.54,14.63C21.73,14.78 21.79,15.05 21.66,15.27L19.66,18.73C19.54,18.95 19.27,19.04 19.05,18.95L16.56,17.95C16.04,18.34 15.5,18.68 14.87,18.93L14.5,21.58C14.46,21.82 14.25,22 14,22H10M11.25,4L10.88,6.61C9.68,6.86 8.62,7.5 7.85,8.39L5.44,7.35L4.69,8.65L6.8,10.2C6.4,11.37 6.4,12.64 6.8,13.8L4.68,15.36L5.43,16.66L7.86,15.62C8.63,16.5 9.68,17.14 10.87,17.38L11.24,20H12.76L13.13,17.39C14.32,17.14 15.37,16.5 16.14,15.62L18.57,16.66L19.32,15.36L17.2,13.81C17.6,12.64 17.6,11.37 17.2,10.2L19.31,8.65L18.56,7.35L16.15,8.39C15.38,7.5 14.32,6.86 13.12,6.62L12.75,4H11.25Z" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <button id="get-passes" class="nasa-button">Get Passes</button>
+                        </div>
+                        <div class="passes-list-container">
+                            <div class="loading-spinner" id="passes-spinner"></div>
+                            <div id="passes-list">
+                                <p class="no-passes">Enter your location to see when the ISS will be visible.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <p>Created using NASA Open APIs | API Key: MczIKlZyb0aFIhiLnks4CaiRZUeov4tBwk3eypn3</p>
+                <p>This is a demo application and is not affiliated with NASA.</p>
+            </div>
+        </footer>
+    </div>
+
+    <div id="lightbox">
+        <span class="close-lightbox">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+        <div id="lightbox-caption"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
+    <script type="module" src="app.js"></script>
+</body>
+</html>
